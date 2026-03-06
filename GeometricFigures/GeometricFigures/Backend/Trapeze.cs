@@ -1,26 +1,38 @@
-﻿using System;
-
-namespace GeometricFigures.Backend
+﻿namespace GeometricFigures.Backend
 {
     public class Trapeze : Triangle
     {
-        public double D { get; set; }
-
-        public Trapeze(string name, double a, double b, double c, double d, double h)
-            : base(name, a, b, c, h)
+        private double _d; 
+     
+        public double D
         {
-            D = ValidateD(d);
+            get => _d;
+            set
+        {
+                _d = value;
+                ValidateD();
+            }
         }
 
-        public double ValidateD(double d)
+        public Trapeze(string name, double a, double b, double c, double d, double h) : base(name, a, b, c, h)
         {
-            if (d <= 0) throw new ArgumentOutOfRangeException(nameof(d), "D debe ser > 0.");
-            return d;
+            D = d;
+       
         }
 
-        // Ajuste para igualar EXACTAMENTE la salida del taller
-        public override double GetArea() => (Side + B) * H;
-        public override double GetPerimeter() => Side + B + C + D;
+        public override double GetArea()
+        {
+            return ((A + B) * H) / 2;
+        }
+
+        public override double GetPerimeter() 
+        { 
+            return A + B + C + _d;
+        }
+        private void ValidateD()
+        {
+            if (_d <= 0)
+                throw new ArgumentException("Side D must be greater than 0.");
+        }
     }
 }
-

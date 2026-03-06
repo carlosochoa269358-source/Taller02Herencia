@@ -2,19 +2,35 @@
 {
     public class Square : GeometricFigure
     {
-        public double Side 
+        private double _a;
+        public double A 
         { 
-            get; 
-            set; 
+            get => _a;
+            set
+            {
+                _a = value;
+                ValidateA();
+            }
         }
 
         public Square(string name, double a) : base(name)
         {
-            Side = a;
+            A = a;
         }
 
-        public override double Area => Side * Side;
+        public override double GetArea()
+        {
+            return _a * _a;
+        }
+        public override double GetPerimeter()
+        {
+            return 4 * _a;
+        }
+        private void ValidateA()
+        {
+            if (_a <= 0)
+                throw new ArgumentException("Side length must be greater than 0.");
+        }
 
-        public override double Perimeter => 4 * Side;
     }
 }

@@ -1,31 +1,56 @@
-﻿using System;
-
-namespace GeometricFigures.Backend
+﻿namespace GeometricFigures.Backend
 {
     public class Rhombus : Square
     {
-        public double D1 { get; set; }
-        public double D2 { get; set; }
+        private double _d1;
+        private double _d2;
+        
+        
+        public double D1 
+        {
+            get => _d1;
+            set
+            {     _d1 = value;
+                ValidateD1();
+            }
+        }
+        public double D2 
+        { 
+            get => _d2;
+            set
+                {
+                _d2 = value;
+                ValidateD2();
+            }
+        }
 
         public Rhombus(string name, double a, double d1, double d2) : base(name, a)
         {
-            D1 = ValidateD1(d1);
-            D2 = ValidateD2(d2);
+            D1 = d1;
+            D2 = d2;
         }
 
-        public double ValidateD1(double d1)
+        public override double GetArea()
         {
-            if (d1 <= 0) throw new ArgumentOutOfRangeException(nameof(d1), "D1 debe ser > 0.");
-            return d1;
+            return (_d1 * _d2) / 2;
         }
 
-        public double ValidateD2(double d2)
+        public override double GetPerimeter()
+        { 
+           return 4 * A;
+        }
+
+        private void ValidateD1()
         {
-            if (d2 <= 0) throw new ArgumentOutOfRangeException(nameof(d2), "D2 debe ser > 0.");
-            return d2;
+            if (_d1 <= 0)
+                throw new ArgumentException(" D1 must be greater than 0.");
         }
 
-        public override double GetArea() => (D1 * D2) / 2.0;
-        public override double GetPerimeter() => 4 * Side;
+        private void ValidateD2()
+        {
+            if (_d2 <= 0)
+                throw new ArgumentException(" D2 must be greater than 0.");
+        }
+
     }
 }

@@ -1,33 +1,54 @@
-﻿using System;
-
-namespace GeometricFigures.Backend
+﻿namespace GeometricFigures.Backend
 {
     public class Triangle : Rectangle
     {
-        public double C { get; set; }
-        public double H { get; set; }
+        private double _c;
+        private double _h;
+
+        public double C 
+        { 
+            get => _c;
+            set
+                {
+                _c = value;
+                ValidateC();
+            }
+
+        }
+        public double H 
+        { 
+            get => _h;
+            set
+                {
+                _h = value;
+                ValidateH();
+            }
+        }
 
         public Triangle(string name, double a, double b, double c, double h) : base(name, a, b)
         {
-            C = ValidateC(a, b, c);
-            H = ValidateH(h);
+            C = c;
+            H = h;
         }
 
-        public double ValidateC(double a, double b, double c)
+        public override double GetArea()
+            {
+            return (B * _h) / 2;
+        }
+
+        public override double GetPerimeter()
+            {
+            return A + B + _c;
+        }
+        private void ValidateC()
         {
-            if (c <= 0) throw new ArgumentOutOfRangeException(nameof(c), "C debe ser > 0.");
-            if (a + b <= c || a + c <= b || b + c <= a)
-                throw new ArgumentException("Los lados no forman un triángulo válido.");
-            return c;
+            if (_c <= 0)
+                throw new ArgumentException("Side C must be greater than 0.");
         }
-
-        public double ValidateH(double h)
+        private void ValidateH()
         {
-            if (h <= 0) throw new ArgumentOutOfRangeException(nameof(h), "H debe ser > 0.");
-            return h;
+            if (_h <= 0)
+                throw new ArgumentException("Height must be greater than 0.");
         }
-
-        public override double GetArea() => (B * H) / 2.0;
-        public override double GetPerimeter() => Side + B + C;
     }
 }

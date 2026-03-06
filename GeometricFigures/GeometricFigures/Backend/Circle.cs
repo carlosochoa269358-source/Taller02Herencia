@@ -1,24 +1,37 @@
-﻿using System;
-
-namespace GeometricFigures.Backend
+﻿namespace GeometricFigures.Backend
 {
-    // UML: Circle hereda de GeometricFigure
     public class Circle : GeometricFigure
     {
-        public double Radius { get; set; }
+        private double _r;
 
+        public double R
+        {
+            get => _r;
+            set
+            {
+                _r = value;
+                ValidateR();
+            }
+        }
         public Circle(string name, double r) : base(name)
         {
-            Radius = ValidateR(r);
+            R = r;
         }
 
-        public double ValidateR(double r)
+        public override double GetArea()
         {
-            if (r <= 0) throw new ArgumentOutOfRangeException(nameof(r), "El radio debe ser > 0.");
-            return r;
+            return Math.PI * _r * _r;
         }
 
-        public override double Area => Math.PI * Radius * Radius;
-        public override double Perimeter => 2 * Math.PI * Radius;
+        public override double GetPerimeter()
+        {
+            return 2 * Math.PI * _r;
+        }
+        private void ValidateR()
+        {
+            if (_r <= 0)
+
+              throw new ArgumentException("Radius must be greater than 0.");
+            }
+        }
     }
-}
