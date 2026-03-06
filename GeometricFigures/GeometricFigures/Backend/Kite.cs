@@ -1,37 +1,23 @@
-﻿namespace GeometricFigures.Backend
+﻿using System;
+
+namespace GeometricFigures.Backend
 {
-    public class Kite : GeometricFigure
+    public class Kite : Rhombus
     {
-        public double A {
-            get; 
-            set; 
-        }
-        public double B 
-        { 
-            get; 
-            set; 
-        }
-        public double D1 
-        { 
-            get; 
-            set; 
-        }
-        public double D2 
-        { 
-            get;
-            set; 
-        }
+        public double B { get; set; }
 
-        public Kite(string name, double a, double b, double d1, double d2) : base(name)
+        public Kite(string name, double a, double b, double d1, double d2) : base(name, a, d1, d2)
         {
-            A = a;
-            B = b;
-            D1 = d1;
-            D2 = d2;
+            B = ValidateB(b);
         }
 
-        public override double Area => (D1 * D2) / 2;
+        public double ValidateB(double b)
+        {
+            if (b <= 0) throw new ArgumentOutOfRangeException(nameof(b), "B debe ser > 0.");
+            return b;
+        }
 
-        public override double Perimeter => 2 * (A + B);
+        public override double GetArea() => (D1 * D2) / 2.0; // misma que rombo (diagonales)
+        public override double GetPerimeter() => 2 * (Side + B);
     }
 }

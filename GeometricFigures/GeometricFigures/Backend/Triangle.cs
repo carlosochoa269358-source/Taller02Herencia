@@ -1,38 +1,33 @@
-﻿namespace GeometricFigures.Backend
+﻿using System;
+
+namespace GeometricFigures.Backend
 {
-    public class Triangle : GeometricFigure
+    public class Triangle : Rectangle
     {
-        public double A 
-        { 
-            get; 
-            set; 
-        }
-        public double B 
-        { 
-            get; 
-            set; 
-        }
-        public double C 
-        { 
-            get; 
-            set; 
-        }
-        public double H 
-        { 
-            get; 
-            set;
-        }
+        public double C { get; set; }
+        public double H { get; set; }
 
-        public Triangle(string name, double a, double b, double c, double h) : base(name)
+        public Triangle(string name, double a, double b, double c, double h) : base(name, a, b)
         {
-            A = a;
-            B = b;
-            C = c;
-            H = h;
+            C = ValidateC(a, b, c);
+            H = ValidateH(h);
         }
 
-        public override double Area => (B * H) / 2;
+        public double ValidateC(double a, double b, double c)
+        {
+            if (c <= 0) throw new ArgumentOutOfRangeException(nameof(c), "C debe ser > 0.");
+            if (a + b <= c || a + c <= b || b + c <= a)
+                throw new ArgumentException("Los lados no forman un triángulo válido.");
+            return c;
+        }
 
-        public override double Perimeter => A + B + C;
+        public double ValidateH(double h)
+        {
+            if (h <= 0) throw new ArgumentOutOfRangeException(nameof(h), "H debe ser > 0.");
+            return h;
+        }
+
+        public override double GetArea() => (B * H) / 2.0;
+        public override double GetPerimeter() => Side + B + C;
     }
 }
